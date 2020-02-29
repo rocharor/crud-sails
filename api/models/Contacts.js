@@ -1,10 +1,12 @@
 module.exports = {
     attributes: {
         nome: {
-            type: 'string'
+            type: 'string',
+            required: true
         },
         idade: {
-            type: 'number'
+            type: 'number',
+            required: true
         },
     },
     // datastore: 'mongodb'

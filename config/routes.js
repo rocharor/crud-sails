@@ -29,4 +29,28 @@ module.exports.routes = {
         controller: 'contact',
         action: 'delete'
     },
+
+    // API
+
+    'GET /api/contact': {
+        controller: 'api/contact',
+        action: 'index'
+    },
+
+    'POST /api/contact': {
+        controller: 'api/contact',
+        action: 'create'
+    },
+
+    'PUT /api/contact/:id': {
+        controller: 'api/contact',
+        action: 'update'
+    },
+
+    'DELETE /api/contact/:id': {
+        controller: 'api/contact',
+        action: 'delete'
+    },
+
+
 };
