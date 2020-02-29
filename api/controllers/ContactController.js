@@ -1,57 +1,74 @@
 var ContactController = {
-     index: async (req, res) => {
-        var db = sails.getDatastore().manager
+    index: async (req, res) => {
+        try {
+            var docs = await Contacts.find({})
 
-        var docs = await db.collection('contacts').find({}).toArray()
-
-        res.view('pages/index', {
-            title: "Home",
-            data: docs
-         });
+            res.view('pages/index', {
+                title: "Home",
+                data: docs
+            });
+        } catch (err) {
+            console.log(err.name)
+            console.log(err.code)
+            console.log(err.details)
+        }
     },
 
     edit: async (req, res) => {
-        var db = sails.getDatastore().manager
-        var ObjectID = require('mongodb').ObjectID
+        try {
+            var doc = await Contacts.findOne({ id: req.params.id })
 
-        var doc = await db.collection('contacts').findOne({_id: new ObjectID(req.params.id)})
-
-        res.view('pages/edit', {
-            title: "Edit",
-            data: doc
-         });
+            res.view('pages/edit', {
+                title: "Edit",
+                data: doc
+            });
+        } catch (err) {
+            console.log(err.name)
+            console.log(err.code)
+            console.log(err.details)
+        }
     },
 
     create: async (req, res) => {
-        var db = sails.getDatastore().manager
+        try {
+            await Contacts.create({
+                nome: req.body.nome,
+                idade: req.body.idade,
+            })
 
-        await db.collection('contacts').insert({
-            nome: req.body.nome,
-            idade: req.body.idade,
-        })
-
-        res.redirect('/contact')
+            res.redirect('/contact')
+        } catch (err) {
+            console.log(err.name)
+            console.log(err.code)
+            console.log(err.details)
+        }
     },
 
     update: async (req, res) => {
-        var db = sails.getDatastore().manager
-        var ObjectID = require('mongodb').ObjectID
+        try {
+            await Contacts.update({ id: req.params.id }).set({
+                nome: req.body.nome,
+                idade: req.body.idade
+            })
 
-        await db.collection('contacts').updateOne({_id: new ObjectID(req.params.id)}).set({
-            nome: req.body.nome,
-            idade: req.body.idade
-        })
-
-        res.redirect('/contact')
+            res.redirect('/contact')
+        } catch (err) {
+            console.log(err.name)
+            console.log(err.code)
+            console.log(err.details)
+        }
     },
 
     delete: async (req, res) => {
-        var db = sails.getDatastore().manager
-        var ObjectID = require('mongodb').ObjectID
+        try {
+            await Contacts.destroyOne({ id: req.params.id })
 
-        await db.collection('contacts').deleteOne({_id: new ObjectID(req.params.id)})
-
-        res.redirect('/contact')
+            res.redirect('/contact')
+        } catch (err) {
+            console.log(err.name)
+            console.log(err.code)
+            console.log(err.details)
+        }
     },
 }
 
