@@ -1,17 +1,12 @@
-var redis = require("async-redis"),
-client = redis.createClient();
-
 var ContactController = {
     index: async (req, res) => {
         try {
-            var value = await client.get('contacts')
+            var value = await CacheService.getCache('contacts')
 
             if (value == null) {
                 console.log('DB');
                 var docs = await Contacts.find({})
-                client.set('contacts', JSON.stringify(docs));
-                client.expire('contacts', 10);
-
+                CacheService.setCache('contacts', docs)
             } else {
                 console.log('CACHE');
                 var docs = JSON.parse(value)

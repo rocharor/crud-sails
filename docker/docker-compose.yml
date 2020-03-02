@@ -5,6 +5,7 @@ services:
   mongo:
     image: mongo
     restart: always
+    container_name: server-mongo
     # environment:
     #   MONGO_INITDB_ROOT_USERNAME: root
     #   MONGO_INITDB_ROOT_PASSWORD: example
@@ -23,5 +24,6 @@ services:
   redis:
     image: redis
     restart: always
+    container_name: server-redis
     ports:
       - "6379:6379"
